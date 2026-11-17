@@ -8,29 +8,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #FBF6EE;
-    --card: #FFFFFF;
+    --bg: #123A2A;
+    --bg2: #0C2A1E;
+    --card: #FFFCF6;
     --ink: #2B211C;
     --muted: #7D6F63;
     --line: #EADFD0;
     --red: #B3261E;
     --red-dark: #8E1C16;
-    --green: #1F5135;
-    --gold: #D9A441;
-    --sky1: #0E2A3B;
-    --sky2: #1D4A55;
+    --cream: #FFF6E4;
+    --gold: #E8B44F;
+    --sky1: #0B1F2E;
+    --sky2: #133B3A;
     --thumb: #F4EDE2;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #14100E;
+      --bg: #0E2C20;
+      --bg2: #081C14;
       --card: #1F1A17;
       --ink: #F4ECE2;
       --muted: #A99B8E;
       --line: #352D28;
       --red: #E2574C;
       --red-dark: #F07A70;
-      --green: #7FC29B;
       --thumb: #2A2420;
     }
   }
@@ -38,7 +39,13 @@
   html, body { overflow-x: hidden; }
   body {
     margin: 0;
-    background: var(--bg);
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(rgba(255,255,255,.07) 1.5px, transparent 1.6px),
+      radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.1px),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+    background-size: 46px 46px, 23px 23px, 100% 100%;
+    background-position: 0 0, 11px 13px, 0 0;
     color: var(--ink);
     font-family: Inter, system-ui, sans-serif;
     font-size: 16px;
@@ -102,7 +109,6 @@
     background: #fff; opacity: .55;
     animation: fald linear infinite;
   }
-  @media (prefers-color-scheme: light) { .sne i { background: #C9D6DD; } }
   @keyframes fald { to { transform: translate(30px, 105vh); } }
   @media (prefers-reduced-motion: reduce) {
     .kane, .sne, .stjerner i { animation: none; }
@@ -119,10 +125,10 @@
     font-size: 26px;
     margin: 0 0 14px;
     display: flex; align-items: center; gap: 10px;
-    color: var(--green);
+    color: var(--cream);
   }
   h2::before { content: "✦"; color: var(--gold); font-size: 18px; }
-  .knipex h2 { color: var(--red); }
+  table { box-shadow: 0 10px 30px rgba(0,0,0,.25); }
 
   table {
     width: 100%;
@@ -201,11 +207,15 @@
     .link .ingen { text-align: left; }
   }
 
-  footer {
-    text-align: center; margin-top: 56px;
+  .hilsen {
+    text-align: center; margin: 64px 0 0;
     font-family: "Mountains of Christmas", Georgia, serif;
-    font-size: 30px; color: var(--red);
+    font-size: 34px; color: var(--cream);
   }
+  .landskab { display: block; width: 100%; height: auto; margin-top: -10px; }
+  .vindue { animation: lys 5s ease-in-out infinite; }
+  @keyframes lys { 50% { opacity: .75; } }
+  @media (prefers-reduced-motion: reduce) { .vindue { animation: none; } }
 </style>
 </head>
 <body>
@@ -318,7 +328,7 @@
           <td class="link"><a href="https://www.elgiganten.dk/product/hjem-rengoring-kokkenudstyr/varktoj-maskiner/diverse-varktoj/wiha-41979-vinkelskruetrakker-sat-1-set/565359" target="_blank" rel="noopener">Se varen ↗</a></td>
         </tr>
         <tr>
-          <td class="billede"><div class="tom">🔩</div></td>
+          <td class="billede"><img src="galvanox.png" alt="Galvanox bitsæt med skraldenøgle" loading="lazy"></td>
           <td>
             <div class="navn">Galvanox bitsæt med skraldenøgle (til Leatherman)</div>
             <span class="model">KTFBR406</span>
@@ -377,8 +387,59 @@
     </table>
   </section>
 
-  <footer>Glædelig jul!</footer>
+  <p class="hilsen">Glædelig jul!</p>
 </main>
+
+<!-- Nisselandskab -->
+<svg class="landskab" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+  <defs>
+    <g id="gran">
+      <path d="M0 0 L-26 40 h12 L-34 72 h14 L-42 108 h84 L20 72 h14 L14 40 h12 Z" fill="#1E5A3C"/>
+      <path d="M0 0 L-14 22 q14 6 28 0 Z M-20 40 q20 8 40 0 l-6 -8 q-14 5 -28 0 Z M-28 72 q28 9 56 0 l-6 -8 q-22 6 -44 0 Z" fill="#F5F8FA"/>
+      <rect x="-5" y="108" width="10" height="14" fill="#4A2F22"/>
+    </g>
+    <g id="nisse">
+      <path d="M-14 0 h28 l-4 -30 h-20 Z" fill="#7A2A20"/>
+      <path d="M-12 -30 q12 -8 24 0 l-2 6 h-20 Z" fill="#F5F8FA"/>
+      <circle cx="0" cy="-40" r="10" fill="#F2C9A8"/>
+      <path d="M-10 -38 q10 22 20 0 q-10 6 -20 0 Z" fill="#FFFFFF"/>
+      <path d="M-12 -44 Q2 -46 12 -44 L-2 -82 Z" fill="#C8302A"/>
+      <path d="M-13 -46 q13 5 26 0 v5 q-13 5 -26 0 Z" fill="#FFFFFF"/>
+      <circle cx="-2" cy="-82" r="4" fill="#FFFFFF"/>
+    </g>
+    <g id="hus">
+      <rect x="0" y="0" width="90" height="62" fill="#9E2B23"/>
+      <path d="M-10 4 L45 -38 L100 4 Z" fill="#5B1E18"/>
+      <path d="M-12 6 L45 -40 L102 6 L96 10 L45 -30 L-6 10 Z" fill="#FFFFFF"/>
+      <rect class="vindue" x="14" y="18" width="20" height="18" fill="#FFD27A"/>
+      <rect x="56" y="26" width="20" height="36" fill="#3E1410"/>
+      <path d="M24 18 v18 M14 27 h20" stroke="#9E2B23" stroke-width="2"/>
+    </g>
+  </defs>
+  <!-- bagerste bakker -->
+  <path d="M0 170 Q 200 110 420 150 T 820 140 T 1200 130 V300 H0 Z" fill="#D9E6EE"/>
+  <use href="#gran" x="120" y="96" transform="scale(1)"/>
+  <use href="#gran" x="980" y="80"/>
+  <use href="#gran" x="1080" y="96"/>
+  <use href="#hus" x="560" y="120"/>
+  <!-- forreste sne -->
+  <path d="M0 220 Q 260 170 560 210 T 1200 200 V300 H0 Z" fill="#FFFFFF"/>
+  <use href="#gran" x="40" y="150"/>
+  <use href="#gran" x="250" y="160" />
+  <use href="#hus" x="760" y="168"/>
+  <use href="#gran" x="1150" y="150"/>
+  <use href="#nisse" x="380" y="250"/>
+  <use href="#nisse" x="420" y="256" transform="translate(840 0) scale(-1 1) translate(0 0)"/>
+  <use href="#nisse" x="690" y="246"/>
+  <!-- slæde med gaver -->
+  <g transform="translate(470 238)">
+    <path d="M0 0 h56 v10 h-56 Z" fill="#7A4B2C"/>
+    <path d="M-6 16 h70 q10 0 12 -10" stroke="#5A3820" stroke-width="3" fill="none"/>
+    <rect x="6" y="-16" width="18" height="16" fill="#C8302A"/>
+    <rect x="28" y="-22" width="20" height="22" fill="#2E7D4F"/>
+    <path d="M15 -16 v16 M38 -22 v22" stroke="#E8B44F" stroke-width="3"/>
+  </g>
+</svg>
 
 <script>
   // Stjerner på himlen
