@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sebastians ønskeliste</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FBF6EE;
+    --card: #FFFFFF;
+    --ink: #2B211C;
+    --muted: #7D6F63;
+    --line: #EADFD0;
+    --red: #B3261E;
+    --red-dark: #8E1C16;
+    --green: #1F5135;
+    --gold: #D9A441;
+    --sky1: #0E2A3B;
+    --sky2: #1D4A55;
+    --thumb: #F4EDE2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14100E;
+      --card: #1F1A17;
+      --ink: #F4ECE2;
+      --muted: #A99B8E;
+      --line: #352D28;
+      --red: #E2574C;
+      --red-dark: #F07A70;
+      --green: #7FC29B;
+      --thumb: #2A2420;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { overflow-x: hidden; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  /* ---------- Himmel med kane ---------- */
+  .himmel {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--sky1) 0%, var(--sky2) 100%);
+    color: #FFF8EC;
+    text-align: center;
+    padding: 72px 16px 96px;
+  }
+  .stjerner { position: absolute; inset: 0; pointer-events: none; }
+  .stjerner i {
+    position: absolute; width: 2px; height: 2px; border-radius: 50%;
+    background: #fff; opacity: .7;
+    animation: blink 4s ease-in-out infinite;
+  }
+  @keyframes blink { 50% { opacity: .2; } }
+  .maane {
+    position: absolute; top: 28px; right: 9%;
+    width: 54px; height: 54px; border-radius: 50%;
+    background: #FFF3D6;
+    box-shadow: 0 0 40px 8px rgba(255, 236, 190, .35);
+  }
+  .kane {
+    position: absolute; top: 34px; left: 0;
+    width: 220px; height: auto;
+    opacity: .9;
+    animation: flyv 38s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes flyv {
+    0%   { transform: translate(-260px, 30px); }
+    25%  { transform: translate(25vw, 0px); }
+    50%  { transform: translate(55vw, 22px); }
+    75%  { transform: translate(85vw, -4px); }
+    100% { transform: translate(calc(100vw + 40px), 18px); }
+  }
+  .himmel h1 {
+    position: relative;
+    font-family: "Mountains of Christmas", Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(42px, 9vw, 72px);
+    line-height: 1.05;
+    margin: 40px 0 10px;
+    text-shadow: 0 2px 12px rgba(0,0,0,.35);
+  }
+  .himmel p { position: relative; margin: 0 auto; max-width: 520px; opacity: .85; }
+  .bakke {
+    position: absolute; left: -5%; right: -5%; bottom: -1px; height: 60px;
+    background: var(--bg);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  }
+  .sne { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
+  .sne i {
+    position: absolute; top: -10px; border-radius: 50%;
+    background: #fff; opacity: .55;
+    animation: fald linear infinite;
+  }
+  @media (prefers-color-scheme: light) { .sne i { background: #C9D6DD; } }
+  @keyframes fald { to { transform: translate(30px, 105vh); } }
+  @media (prefers-reduced-motion: reduce) {
+    .kane, .sne, .stjerner i { animation: none; }
+    .kane { transform: translate(8vw, 0); }
+    .sne { display: none; }
+  }
+
+  /* ---------- Liste ---------- */
+  main { max-width: 860px; margin: 0 auto; padding: 8px 16px 64px; position: relative; z-index: 6; }
+  section { margin-top: 40px; }
+  h2 {
+    font-family: Fraunces, Georgia, serif;
+    font-weight: 600;
+    font-size: 26px;
+    margin: 0 0 14px;
+    display: flex; align-items: center; gap: 10px;
+    color: var(--green);
+  }
+  h2::before { content: "✦"; color: var(--gold); font-size: 18px; }
+  .knipex h2 { color: var(--red); }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  th {
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  td { padding: 14px 16px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  tr:last-child td { border-bottom: 0; }
+  .knipex table { border-top: 4px solid var(--red); }
+  .billede { width: 112px; }
+  .billede img, .billede .tom {
+    display: block; width: 88px; height: 88px;
+    object-fit: contain; border-radius: 10px;
+    background: #fff; padding: 6px;
+  }
+  .billede .tom {
+    display: grid; place-items: center;
+    background: var(--thumb); font-size: 36px;
+  }
+  .navn { font-weight: 600; }
+  .model {
+    display: inline-block; margin-top: 4px;
+    font-size: 13px; font-weight: 600;
+    color: var(--red-dark);
+    background: color-mix(in srgb, var(--red) 12%, transparent);
+    padding: 2px 8px; border-radius: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .note { color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .link { width: 170px; }
+  .link a {
+    display: block; text-align: center;
+    background: var(--red); color: #fff;
+    font-weight: 600; font-size: 14px;
+    text-decoration: none;
+    padding: 9px 12px; border-radius: 999px;
+    margin: 4px 0;
+  }
+  .link a:hover { background: var(--red-dark); }
+  .link a.sekundaer {
+    background: transparent; color: var(--red);
+    border: 1.5px solid var(--red);
+  }
+  .link .ingen { color: var(--muted); font-size: 14px; text-align: center; display: block; }
+
+  @media (max-width: 600px) {
+    thead { display: none; }
+    table, tbody, tr, td { display: block; }
+    tr {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 4px 14px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    tr:last-child { border-bottom: 0; }
+    td { padding: 0; border: 0; }
+    .billede { width: auto; grid-row: span 2; }
+    .billede img, .billede .tom { width: 88px; height: 88px; }
+    .link { width: auto; }
+    .link a { display: inline-block; margin: 6px 6px 0 0; }
+    .link .ingen { text-align: left; }
+  }
+
+  footer {
+    text-align: center; margin-top: 56px;
+    font-family: "Mountains of Christmas", Georgia, serif;
+    font-size: 30px; color: var(--red);
+  }
+</style>
+</head>
+<body>
+
+<div class="sne" aria-hidden="true"></div>
+
+<header class="himmel">
+  <div class="stjerner" aria-hidden="true"></div>
+  <div class="maane" aria-hidden="true"></div>
+
+  <!-- Julemanden i kane med rensdyr -->
+  <svg class="kane" viewBox="0 0 440 110" aria-hidden="true" fill="#FFF3D6">
+    <!-- tøjler -->
+    <path d="M150 58 C 200 50, 250 52, 300 46 C 330 42, 360 44, 392 40" stroke="#FFF3D6" stroke-width="1.5" fill="none" opacity=".7"/>
+    <!-- rensdyr (tre ens, forskudt) -->
+    <g id="ren">
+      <path d="M0 40 q4 -10 16 -10 h26 q8 0 12 -8 l6 -10 l3 2 l-4 9 l7 -6 l2 3 l-8 8 q2 6 -4 10 l-4 3 q-2 4 -8 4 h-24 l4 18 h-4 l-6 -15 l-6 15 h-4 l2 -18 q-10 -2 -10 -10 z"/>
+      <circle cx="66" cy="20" r="2" fill="#E2574C"/>
+    </g>
+    <use href="#ren" x="250" y="10"/>
+    <use href="#ren" x="315" y="4"/>
+    <use href="#ren" x="380" y="-2"/>
+    <!-- kane -->
+    <path d="M40 60 h110 q8 0 8 -10 v-10 h8 v14 q0 18 -18 18 h-96 q-12 0 -16 -10 z"/>
+    <path d="M18 84 h130 q14 0 18 -10" stroke="#FFF3D6" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M46 72 v12 M130 72 v12" stroke="#FFF3D6" stroke-width="3"/>
+    <!-- julemand -->
+    <circle cx="96" cy="26" r="11"/>
+    <path d="M80 60 q0 -26 16 -26 q16 0 16 26 z"/>
+    <path d="M86 18 q8 -16 22 -8 l8 10 l-6 2 l-6 -6 q-6 -2 -12 4 z"/>
+    <circle cx="118" cy="22" r="3.5"/>
+    <!-- gavesæk -->
+    <path d="M44 60 q-6 -22 10 -30 q6 -3 6 -8 l6 0 q0 5 6 8 q14 8 10 30 z"/>
+  </svg>
+
+  <h1>Sebastians ønskeliste</h1>
+  <p>Jul 2026 · Linkene viser hvad det er. Find det gerne billigere et andet sted.</p>
+  <div class="bakke" aria-hidden="true"></div>
+</header>
+
+<main>
+
+  <section class="knipex">
+    <h2>Knipex værktøj</h2>
+    <table>
+      <thead><tr><th>Billede</th><th>Ønske</th><th>Link</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="billede"><div class="tom">🧰</div></td>
+          <td>
+            <div class="navn">Knipex tangsæt</div>
+            <div class="note">Se præcis hvilket sæt via linket</div>
+          </td>
+          <td class="link"><a href="https://www.proshop.dk/Haandvaerktoej/KNIPEX-Tang-saet/2990122" target="_blank" rel="noopener">Se varen ↗</a></td>
+        </tr>
+        <tr>
+          <td class="billede"><img src="https://cdn.shopify.com/s/files/1/0933/1582/5958/files/74-22-250-t-bka_1.jpg?v=1778330658" alt="Knipex kraft-skævbider" loading="lazy"></td>
+          <td>
+            <div class="navn">Kraft-skævbider, 12° vinklet, 250 mm</div>
+            <span class="model">74 22 250</span>
+          </td>
+          <td class="link"><a href="https://www.globaltools.dk/vaerktoej/haandvaerktoej/taenger/skaevbider-3617/kraft-skaevbider-74-22-250-mm" target="_blank" rel="noopener">Se varen ↗</a></td>
+        </tr>
+        <tr>
+          <td class="billede"><img src="https://www.avxperten.dk/images/product/246685/800x800/2d690097-8b92-4d09-88d5-273fc0f4f07d.jpg" alt="Knipex tangnøgle 180 mm" loading="lazy"></td>
+          <td>
+            <div class="navn">Tangnøgle, 180 mm</div>
+            <span class="model">86 01 180</span>
+            <div class="note">Den jeg helst vil have</div>
+          </td>
+          <td class="link"><a href="https://www.avxperten.dk/knipex-86-01-skiftenogle-180mm.asp" target="_blank" rel="noopener">Se varen ↗</a></td>
+        </tr>
+        <tr>
+          <td class="billede"><img src="https://cdn.shopify.com/s/files/1/0933/1582/5958/files/86-01-250.jpg?v=1778334411" alt="Knipex tangnøgle 250 mm" loading="lazy"></td>
+          <td>
+            <div class="navn">Tangnøgle, 250 mm</div>
+            <span class="model">86 01 250</span>
+            <div class="note">Den store vil jeg også gerne have, men den lille først</div>
+          </td>
+          <td class="link">
+            <a href="https://www.proshop.dk/Vaerktoej-til-VVS-arbejde/KNIPEX-Tangnoegle/3003122" target="_blank" rel="noopener">Se varen ↗</a>
+            <a class="sekundaer" href="https://www.avxperten.dk/knipex-86-01-250-skiftenogle-250mm.asp" target="_blank" rel="noopener">Andet sted ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="billede"><img src="https://cdn.shopify.com/s/files/1/0933/1582/5958/files/82-01-150-1.jpg?v=1778409846" alt="Knipex TwinGrip" loading="lazy"></td>
+          <td>
+            <div class="navn">TwinGrip, 150 mm (6")</div>
+            <span class="model">82 01 150</span>
+            <div class="note">8" (82 01 200) er også fint</div>
+          </td>
+          <td class="link"><a href="https://www.avxperten.dk/knipex-twingrip-gribetang-150mm-rod.asp" target="_blank" rel="noopener">Se varen ↗</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Andet værktøj</h2>
+    <table>
+      <thead><tr><th>Billede</th><th>Ønske</th><th>Link</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="billede"><img src="https://www.avxperten.dk/images/product/182335/800x800/5ebfe7be-8c31-4b6c-b946-71554dcd9c47.jpg" alt="Wiha unbrakonøglesæt" loading="lazy"></td>
+          <td>
+            <div class="navn">Wiha unbrakonøglesæt, ErgoStar, 9 dele</div>
+            <span class="model">41483</span>
+          </td>
+          <td class="link"><a href="https://www.avxperten.dk/wiha-41483-unbrakonoglesaet-i-ergostar-9-dele.asp" target="_blank" rel="noopener">Se varen ↗</a></td>
+        </tr>
+        <tr>
+          <td class="billede"><div class="tom">🪛</div></td>
+          <td>
+            <div class="navn">Wiha vinkelskruetrækker-sæt</div>
+            <span class="model">41979</span>
+          </td>
+          <td class="link"><a href="https://www.elgiganten.dk/product/hjem-rengoring-kokkenudstyr/varktoj-maskiner/diverse-varktoj/wiha-41979-vinkelskruetrakker-sat-1-set/565359" target="_blank" rel="noopener">Se varen ↗</a></td>
+        </tr>
+        <tr>
+          <td class="billede"><img src="https://pim.friluftslageret.dk/cdnmedia/32768" alt="Leatherman Ratchet Driver" loading="lazy"></td>
+          <td>
+            <div class="navn">Leatherman Ratchet Driver</div>
+            <div class="note">Gerne som sæt med bits (Amazon-linket)</div>
+          </td>
+          <td class="link">
+            <a href="https://friluftslageret.dk/ratchet-driver/p/81071" target="_blank" rel="noopener">Se varen ↗</a>
+            <a class="sekundaer" href="https://www.amazon.de/dp/B0DZJ63T35" target="_blank" rel="noopener">Sættet ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="billede"><div class="tom">🗄️</div></td>
+          <td>
+            <div class="navn">Skuffe/opbevaring til værktøj</div>
+          </td>
+          <td class="link"><a href="https://www.jemogfix.dk/soeg/?q=skuffe" target="_blank" rel="noopener">Se udvalg ↗</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Elektronik og køkken</h2>
+    <table>
+      <thead><tr><th>Billede</th><th>Ønske</th><th>Link</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="billede"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/PlayStation_5_and_DualSense_with_transparent_background.png/500px-PlayStation_5_and_DualSense_with_transparent_background.png" alt="PlayStation 5" loading="lazy"></td>
+          <td><div class="navn">PlayStation 5</div></td>
+          <td class="link"><span class="ingen">Intet link</span></td>
+        </tr>
+        <tr>
+          <td class="billede"><img src="https://cdn.shopify.com/s/files/1/0310/1560/0172/products/EVKB-80HSV__web.png?v=1645185978" alt="Hario el-kedel med svanehals" loading="lazy"></td>
+          <td>
+            <div class="navn">Hario el-kedel med svanehals</div>
+            <div class="note">Fx Hario V60 Power Kettle Buono</div>
+          </td>
+          <td class="link"><span class="ingen">Intet link</span></td>
+        </tr>
+        <tr>
+          <td class="billede"><img src="https://www.avxperten.dk/images/product/165657/800x800/7be02b91-9aa2-4fac-ac90-4ef80c213c67.jpg" alt="Powerbank" loading="lazy"></td>
+          <td>
+            <div class="navn">Powerbank, mindst 30.000 mAh</div>
+            <div class="note">Billedet er bare et eksempel</div>
+          </td>
+          <td class="link"><span class="ingen">Intet link</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Bøger</h2>
+    <table>
+      <thead><tr><th>Billede</th><th>Ønske</th><th>Link</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="billede"><img src="https://imgcdn.saxo.com/_9781805468394/0x500" alt="Bogforside: Persevilience" loading="lazy"></td>
+          <td>
+            <div class="navn">Persevilience: The Word the World Needs Now</div>
+            <div class="note">Alastair Campbell</div>
+          </td>
+          <td class="link"><a href="https://www.saxo.com/dk/persevilience_bog_9781805468394" target="_blank" rel="noopener">Se bogen ↗</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>Glædelig jul!</footer>
+</main>
+
+<script>
+  // Stjerner på himlen
+  const s = document.querySelector('.stjerner');
+  for (let i = 0; i < 45; i++) {
+    const e = document.createElement('i');
+    e.style.left = Math.random() * 100 + '%';
+    e.style.top = Math.random() * 70 + '%';
+    e.style.animationDelay = (Math.random() * 4) + 's';
+    s.appendChild(e);
+  }
+  // Stille snefald
+  const sne = document.querySelector('.sne');
+  for (let i = 0; i < 28; i++) {
+    const f = document.createElement('i');
+    const size = 2 + Math.random() * 4;
+    f.style.width = f.style.height = size + 'px';
+    f.style.left = Math.random() * 100 + '%';
+    f.style.animationDuration = (14 + Math.random() * 16) + 's';
+    f.style.animationDelay = (-Math.random() * 30) + 's';
+    sne.appendChild(f);
+  }
+</script>
+</body>
+</html>
